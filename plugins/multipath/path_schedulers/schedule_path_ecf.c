@@ -1,6 +1,6 @@
 #include "../bpf.h"
 
-protoop_arg_t schedule_path_rtt(picoquic_cnx_t *cnx) {
+protoop_arg_t schedule_path_ecf(picoquic_cnx_t *cnx) {
     picoquic_packet_t *retransmit_p  = (picoquic_packet_t *) get_cnx(cnx, AK_CNX_INPUT, 0);
     picoquic_path_t *from_path = (picoquic_path_t *) get_cnx(cnx, AK_CNX_INPUT, 1);
     char *reason = (char *) get_cnx(cnx, AK_CNX_INPUT, 2);
@@ -174,7 +174,7 @@ protoop_arg_t schedule_path_rtt(picoquic_cnx_t *cnx) {
             ) {
                 continue;
             }
-            
+
             path_x = path_c;
             selected_path_index = i;
             smoothed_rtt_x = smoothed_rtt_c;
