@@ -165,6 +165,14 @@ protoop_arg_t schedule_path_ecf(picoquic_cnx_t *cnx) {
                 }
             }
             
+            if (path_x == path_0) {
+                path_x = path_c;
+                selected_path_index = i;
+                smoothed_rtt_x = (uint64_t) get_path(path_c, AK_PATH_SMOOTHED_RTT, 0);
+                valid = 0;
+                continue;
+            }
+            /*
             queue_t *reserved_frames = (queue_t *) get_cnx(cnx, AK_CNX_RESERVED_FRAMES, 0);
             int reserved_frame_len = queue_size(reserved_frames);
             if(
@@ -173,7 +181,7 @@ protoop_arg_t schedule_path_ecf(picoquic_cnx_t *cnx) {
                 (reserved_frame_len / get_path(path_x, AK_PATH_CWIN, 0) + 1) * get_path(path_x, AK_PATH_SMOOTHED_RTT, 0) < get_path(path_c, AK_PATH_SMOOTHED_RTT, 0)
             ) {
                 continue;
-            }
+            }*/
 
             path_x = path_c;
             selected_path_index = i;
