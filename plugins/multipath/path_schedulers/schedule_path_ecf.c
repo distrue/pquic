@@ -167,21 +167,9 @@ protoop_arg_t schedule_path_ecf(picoquic_cnx_t *cnx) {
                 }
             }
             
-            /*
-            if (path_x == path_0) {
-                path_x = path_c;
-                selected_path_index = i;
-                smoothed_rtt_x = (uint64_t) get_path(path_c, AK_PATH_SMOOTHED_RTT, 0);
-                valid = 0;
-                continue;
-            }
-            */
-            
             queue_t *reserved_frames = (queue_t *) get_cnx(cnx, AK_CNX_RESERVED_FRAMES, 0);
             uint64_t reserved_frame_len = (uint64_t) reserved_frames->size;
             uint64_t cwin_x = (uint64_t) get_path(path_x, AK_PATH_CWIN, 0);
-            // uint64_t smoothed_rtt_c = (uint64_t) get_path(path_c, AK_PATH_SMOOTHED_RTT, 0);
-            // uint64_t tmp_rtt_x = (uint64_t) get_path(path_x, AK_PATH_SMOOTHED_RTT, 0);
                 
             if(
                 path_x && valid && 
