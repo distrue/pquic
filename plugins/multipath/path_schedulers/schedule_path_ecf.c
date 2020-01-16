@@ -26,6 +26,7 @@ protoop_arg_t schedule_path_rtt(picoquic_cnx_t *cnx) {
     int valid = 0;
     picoquic_stream_head *stream = helper_find_ready_stream(cnx);
     int tls_ready = helper_is_tls_stream_ready(cnx);
+    
     for (uint8_t i = 0; i < bpfd->nb_proposed; i++) {
         pd = bpfd->paths[i];
         /* Lowest RTT-based scheduler */
@@ -163,14 +164,22 @@ protoop_arg_t schedule_path_rtt(picoquic_cnx_t *cnx) {
                     continue;
                 }
             }
-            if (path_x && valid && smoothed_rtt_x < smoothed_rtt_c) {
+            
+            queue_t *reserved_frames = (queue_t *) get_cnx(cnx, AK_CNX_RESERVED_FRAMES, 0);
+            int reserved_frame_len = queue_size(reserved_frames);
+            if(
+                path_x && 
+                valid && 
+                (reserved_frame_len / get_path(path_x, AK_PATH_CWIN, 0) + 1) * get_path(path_x, AK_PATH_SMOOTHED_RTT, 0) < get_path(path_c, AK_PATH_SMOOTHED_RTT, 0)
+            ) {
                 continue;
             }
+            
             path_x = path_c;
             selected_path_index = i;
             smoothed_rtt_x = smoothed_rtt_c;
             valid = 1;
-            path_reason = "BEST_RTT";
+            path_reason = "Earlist_Completion_First";
         }
     }
 
