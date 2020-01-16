@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "plugin.h": "c",
+        "picoquic.h": "c",
+        "helpers.h": "c"
+    }
+}
